@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Simple AI Assistant</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            height: 90vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background: #4f46e5;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        #chat {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 15px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        .user {
+            background: #4f46e5;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 3px;
+        }
+
+        .bot {
+            background: #e5e7eb;
+            color: #111827;
+            margin-right: auto;
+            border-bottom-left-radius: 3px;
+        }
+
+        .input-area {
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+        }
+
+        #question {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #question:focus {
+            border-color: #4f46e5;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        #sendBtn {
+            background: #4f46e5;
+            color: white;
+        }
+
+        #sendBtn:hover {
+            background: #3730a3;
+        }
+
+        .controls {
+            padding: 10px 15px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .controls button {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .controls button:hover {
+            background: #d1d5db;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>🤖 Simple AI Assistant</h1>
+        <p>Ask me a simple question</p>
+    </header>
+
+    <div id="chat">
+
+        <div class="message bot">
+            Hello! 👋 I am your simple AI assistant.
+            You can ask me questions like "What is Java?",
+            "What is Python?", or "What is human rights?"
+        </div>
+
+    </div>
+
+    <div class="input-area">
+
+        <input
+            type="text"
+            id="question"
+            placeholder="Type your question here..."
+        >
+
+        <button id="sendBtn">Send</button>
+
+    </div>
+
+    <div class="controls">
+
+        <button id="readBtn">🔊 Read Answer</button>
+
+        <button id="stopBtn">⏹ Stop</button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const questionInput = document.getElementById("question");
+    const sendBtn = document.getElementById("sendBtn");
+    const chat = document.getElementById("chat");
+    const readBtn = document.getElementById("readBtn");
+    const stopBtn = document.getElementById("stopBtn");
+
+    let lastAnswer = "";
+
+
+    function addMessage(text, type) {
+
+        const message = document.createElement("div");
+
+        message.classList.add("message");
+        message.classList.add(type);
+
+        message.textContent = text;
+
+        chat.appendChild(message);
+
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+
+    function getAnswer(question) {
+
+        const q = question.toLowerCase().trim();
+
+
+        if (q.includes("hello") ||
+            q.includes("hi") ||
+            q.includes("salam")) {
+
+            return "Hello! 👋 How can I help you?";
+        }
+
+
+        if (q.includes("how are you")) {
+
+            return "I am doing well! Thank you for asking. 😊";
+        }
+
+
+        if (q.includes("what is java") ||
+            q === "java") {
+
+            return "Java is a programming language used to create applications, websites, games, and many other types of software.";
+        }
+
+
+        if (q.includes("what is python") ||
+            q === "python") {
+
+            return "Python is a popular programming language. It is often used for data science, artificial intelligence, web development, and automation.";
+        }
+
+
+        if (q.includes("what is html") ||
+            q === "html") {
+
+            return "HTML stands for HyperText Markup Language. It is used to create the structure of webpages.";
+        }
+
+
+        if (q.includes("what is css") ||
+            q === "css") {
+
+            return "CSS stands for Cascading Style Sheets. It is used to design and style webpages.";
+        }
+
+
+        if (q.includes("what is javascript") ||
+            q === "javascript") {
+
+            return "JavaScript is a programming language that makes websites interactive and dynamic.";
+        }
+
+
+        if (q.includes("what is ai") ||
+            q.includes("artificial intelligence")) {
+
+            return "Artificial intelligence, or AI, is technology that allows computers to perform tasks that normally require human intelligence, such as understanding language, recognizing images, and answering questions.";
+        }
+
+
+        if (q.includes("what is human rights") ||
+            q.includes("human rights")) {
+
+            return "Human rights are basic rights and freedoms that belong to every person, such as the right to life, education, freedom, and equality.";
+        }
+
+
+        if (q.includes("what is data science") ||
+            q.includes("data science")) {
+
+            return "Data science is the process of using data, statistics, programming, and other techniques to find useful information and make decisions.";
+        }
+
+
+        if (q.includes("what is computer")) {
+
+            return "A computer is an electronic device that processes information and performs tasks according to instructions called programs.";
+        }
+
+
+        if (q.includes("thank you") ||
+            q.includes("thanks")) {
+
+            return "You're welcome! 😊";
+        }
+
+
+        if (q.includes("bye") ||
+            q.includes("goodbye")) {
+
+            return "Goodbye! 👋 Have a great day!";
+        }
+
+
+        return "I'm still a simple AI, so I don't know the answer to that question yet. Try asking me about Java, Python, HTML, CSS, JavaScript, AI, data science, computers, or human rights.";
+    }
+
+
+    function sendQuestion() {
+
+        const question = questionInput.value.trim();
+
+        if (question === "") {
+            return;
+        }
+
+
+        addMessage(question, "user");
+
+
+        const answer = getAnswer(question);
+
+        lastAnswer = answer;
+
+        addMessage(answer, "bot");
+
+
+        questionInput.value = "";
+
+        questionInput.focus();
+    }
+
+
+    sendBtn.addEventListener("click", sendQuestion);
+
+
+    questionInput.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            sendQuestion();
+
+        }
+
+    });
+
+
+    readBtn.addEventListener("click", function() {
+
+        if (lastAnswer === "") {
+            return;
+        }
+
+        speechSynthesis.cancel();
+
+        const speech = new SpeechSynthesisUtterance(lastAnswer);
+
+        speech.lang = "en-US";
+
+        speech.rate = 1;
+        speech.pitch = 1;
+        speech.volume = 1;
+
+        speechSynthesis.speak(speech);
+
+    });
+
+
+    stopBtn.addEventListener("click", function() {
+
+        speechSynthesis.cancel();
+
+    });
+
+</script>
+
+</body>
+</html>
